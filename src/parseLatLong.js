@@ -23,7 +23,7 @@ function parseLatLong(input) {
     if (geoLetters[0].toUpperCase() === 'S' || geoLetters[0].toUpperCase() === 'G') latDec = -latDec; // G is abr. of güney(it means South in Turkish)
     if (geoLetters[1].toUpperCase() === 'W' || geoLetters[1].toUpperCase() === 'B') longDec = -longDec; // B is abr. of batı (it means west in Turkish)
   
-    return [latDec, longDec];
+    return [latDec, longDec, input];
   }
 
   export default parseLatLong;

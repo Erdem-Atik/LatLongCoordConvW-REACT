@@ -31,13 +31,28 @@ function CoordinateForm(props) {
 }
 
 
+function InputedCoord(props){
+ return(
+  <ul>
+    <li>
+    {props.coordinates.map((coord, index) => (
+        <li key={index}>
+       Inputed: {coord[2]}
+        </li>      
+      ))}
+    </li>
+  </ul>
+ )
+
+}
+
 function CoordinateList(props) {
   return (
     <ul>
       {props.coordinates.map((coord, index) => (
         <li key={index}>
-          Latitude: {coord[0]}, Longitude: {coord[1]}
-        </li>
+        Latitude: {coord[0]}, Longitude: {coord[1]}
+        </li>      
       ))}
     </ul>
   );
@@ -49,13 +64,21 @@ function App() {
   const [coordinates, setCoordinates] = useState([]);
 
   const addCoordinate = (coordinate) => {
-    setCoordinates([...coordinates, coordinate]);
+    setCoordinates((prevCoordinates) => {
+      // filter out the new coordinate from the current list of coordinates
+      const filteredCoordinates = prevCoordinates.filter(
+        (prevCoordinate) => prevCoordinate[0] !== coordinate[0] && prevCoordinate[1] !== coordinate[1]
+      );
+      // return the filtered list with the new coordinate appended
+      return [...filteredCoordinates, coordinate];
+    });
   };
 
   return (
     <div>
       <h1>Coordinate List</h1>
       <CoordinateForm addCoordinate={addCoordinate} />
+      <InputedCoord coordinates={coordinates} />
       <CoordinateList coordinates={coordinates} />
     </div>
   );
