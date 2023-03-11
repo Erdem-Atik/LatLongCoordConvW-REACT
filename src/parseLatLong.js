@@ -10,7 +10,7 @@ function parseLatLong(input) {
     const geoLetters = replacedComa.filter((el) => !+el);
     geoLetters.filter((el) => {
       return el !== '';
-    }); // if the array contains empty string, it will remove. Above regex pattern sometimes make side effect
+    }); // if the array contains empty string, it will remove. Above regex pattern can makes side effect in some cases.
     const coordNumber = replacedComa.filter((n) => +n).map((nr) => +nr);
     const latNumber = coordNumber.slice(0, coordNumber.length / 2);
     const longNumber = coordNumber.slice(coordNumber.length / 2);
@@ -20,10 +20,10 @@ function parseLatLong(input) {
     let latDec = latNumber.reduce(reducer);
     let longDec = longNumber.reduce(reducer);
   
-    if (geoLetters[0].toUpperCase() === 'S' || geoLetters[0].toUpperCase() === 'G') latDec = -latDec; // G is abr. of güney(it means South in Turkish)
-    if (geoLetters[1].toUpperCase() === 'W' || geoLetters[1].toUpperCase() === 'B') longDec = -longDec; // B is abr. of batı (it means west in Turkish)
+    if (geoLetters[0].toUpperCase() === 'S' || geoLetters[0].toUpperCase() === 'G') latDec = -latDec; // G is abr. of 'Güney'(it means South in Turkish)
+    if (geoLetters[1].toUpperCase() === 'W' || geoLetters[1].toUpperCase() === 'B') longDec = -longDec; // B is abr. of 'Batı' (it means West in Turkish)
   
-    return [latDec, longDec, input];
+    return [latDec, longDec];
   }
 
   export default parseLatLong;
