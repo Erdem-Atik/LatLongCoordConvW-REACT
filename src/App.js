@@ -1,69 +1,65 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import parseLatLong from './parseLatLong';
+import './App.css';
 
-//  41° 1'0.18"K  28°59'6.55"D
+// example coordinate: 41° 1'0.18"K  28°59'6.55"D
+
 function CoordinateForm(props) {
   const [input, setInput] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const parsedCoordinate = parseLatLong(input);
-    console.log(parsedCoordinate);
-    props.getInput(input)
+    props.getInput(input);
     props.addCoordinate(parsedCoordinate);
     setInput('');
   };
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
-    
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Enter coordinates:
-        <input type="text" value={input} onChange={handleInputChange} />
+    <form className="coordinate-form" onSubmit={handleSubmit}>
+      <label className="coordinate-form__label">
+        Enter DMS Coordinates:
+        <input className="coordinate-form__input" type="text" value={input} onChange={handleInputChange} />
       </label>
-      <button type="submit">Add</button>
+      <button className="coordinate-form__button" type="submit">CONVERT</button>
     </form>
   );
 }
 
-
 function InputedCoord(props){
- return(
-  <ul>
-    <li>
-      Inputed: {props.input}
-    </li>
-  </ul>
- )
-
+  return(
+    <ul className="inputed-coord">
+      <li className="inputed-coord__item">
+        Inputed: {props.input}
+      </li>
+    </ul>
+  )
 }
 
 function CoordinateList(props) {
   return (
-    <ul>
+    <ul className="coordinate-list">
       {props.coordinates.map((coord, index) => (
-        <li key={index}>
-        Latitude: {coord[0]}, Longitude: {coord[1]}
-        </li>      
+        <li key={index} className="coordinate-list__item">
+          Latitude: {coord[0]}, Longitude: {coord[1]}
+        </li>
       ))}
     </ul>
   );
 }
 
-
-
 function App() {
   const [coordinates, setCoordinates] = useState([]);
-  const [input, getInp] = useState([])
+  const [input, getInp] = useState([]);
 
   const getInput = (inp) =>{
-    getInp(inp)
-  }
+    getInp(inp);
+  };
 
   const addCoordinate = (coordinate) => {
     setCoordinates((prevCoordinates) => {
@@ -77,14 +73,13 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Coordinate Converter</h1>
+    <div className="app">
+      <h1 className="app__title">Coordinate Converter</h1>
       <CoordinateForm addCoordinate={addCoordinate} getInput ={getInput} />
       <InputedCoord input={input}  />
       <CoordinateList coordinates={coordinates} />
     </div>
   );
 }
-
 
 export default App;
